@@ -12,19 +12,20 @@
 ## ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ## OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-__precompile__(false)
+function landstack!(landscapes::Vector{<:Matrix})
+  # erode all landscapes from the bottom up
+  for t=1:length(landscapes)
+    for p=1:t-1
+      Lt = landscapes[t]
+      Lp = landscapes[p]
+      erosion = Lp .> Lt
+      Lp[erosion] = Lt[erosion]
+    end
+  end
 
-module Stratimages
+  nothing
+end
 
-using Images: imfilter, Kernel
-using ImageQuilting
-using StatsBase: sample, weights
-using Distributions: Exponential
-using ProgressMeter: Progress, next!
-
-include("landsim.jl")
-include("stacking.jl")
-
-export landsim, landstack!
-
+function voxelize(landscapes::Vector{<:Matrix}, vertres=100)
+  # TODO
 end
