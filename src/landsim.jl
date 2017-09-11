@@ -15,9 +15,10 @@
 function landsim(training_images::Vector{BitMatrix};
                  image_weights=ones(length(training_images)),
                  DEM=nothing, nevents=1, eventrate=1.,
-                 time2thick=1., smoothwindow=3,
+                 time2thick=1., smoothwindow=3, upliftrate=1.,
+                 tplsizex=30, tplsizey=30,
+                 bufesetup=false, brate=1., blocation=70, bwidth=8,
                  nreal=1, showprogress=false)
-
   # sanity checks
   @assert length(Set(size.(training_images))) == 1 "training images must have the same size"
   @assert length(image_weights) == length(training_images) "number of weights must match number of images"
@@ -39,6 +40,13 @@ function landsim(training_images::Vector{BitMatrix};
   AUX2 = Float64[j/ny for i=1:nx, j=1:ny, k=1:1]
   sdata = [SoftData(AUX1, _ -> AUX1), SoftData(AUX2, _ -> AUX2)]
 
+  # Bufe's experiment setup
+  if bufesetup
+    bmask = zeros(DEM)
+    bmask[blocation,:] = 1
+    bmask = imfilter(bmask, Kernel.gaussian(bwidth))
+  end
+
   # main output is a vector of 3D models
   realizations = []
 
@@ -59,15 +67,23 @@ function landsim(training_images::Vector{BitMatrix};
       # sample event duration
       ΔT = rand(Exponential(1/eventrate))
 
-      # run forward model
-      TI = reshape(training_image, size(training_image)..., 1)
-      reals = iqsim(TI, 30, 30, 1, size(TI)..., soft=sdata)
-      flow_pattern = reals[1][:,:,1]
+      # sample uplift rate
+      U = rand(Uniform(0,2*upliftrate))
 
-      # deposit/erode
-      ΔS = imfilter(flow_pattern, Kernel.gaussian(smoothwindow))
-      ΔS *= time2thick * ΔT
-      landscape += ΔS
+      # generate flow pattern and sediment mask
+      TI = reshape(training_image, size(training_image)..., 1)
+      reals = iqsim(TI, tplsizex, tplsizey, 1, size(TI)..., soft=sdata)
+      flow_pattern = reals[1][:,:,1]
+      sedmask = imfilter(flow_pattern, Kernel.gaussian(smoothwindow))
+
+      # deposit sediments
+      landscape += sedmask * time2thick * ΔT
+
+      # uplift basin
+      landscape -= U * ΔT
+
+      # Bufe's experiment setup
+      bufesetup && (landscape += bmask * brate * ΔT)
 
       # save landscape and transition to a new flow pattern
       push!(landscapes, copy(landscape))

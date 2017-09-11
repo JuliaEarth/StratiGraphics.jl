@@ -19,7 +19,7 @@ module Stratimages
 using Images: imfilter, Kernel
 using ImageQuilting
 using StatsBase: sample, weights
-using Distributions: Exponential
+using Distributions: Exponential, Uniform
 using ProgressMeter: Progress, next!
 
 include("landsim.jl")
