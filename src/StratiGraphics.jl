@@ -14,7 +14,7 @@
 
 __precompile__(false)
 
-module Stratimages
+module StratiGraphics
 
 using Images: imfilter, Kernel
 using ImageQuilting

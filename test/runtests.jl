@@ -1,4 +1,4 @@
-using Stratimages
+using StratiGraphics
 using Base.Test
 
 # write your own tests here

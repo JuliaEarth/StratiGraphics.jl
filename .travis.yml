@@ -18,7 +18,7 @@ notifications:
 
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia --check-bounds=yes --color=yes -e 'Pkg.clone(pwd()); Pkg.build("Stratimages"); Pkg.test("Stratimages"; coverage=true)'
+  - julia --check-bounds=yes --color=yes -e 'Pkg.clone(pwd()); Pkg.build("StratiGraphics"); Pkg.test("StratiGraphics"; coverage=true)'
 
 after_success:
-  - julia -e 'cd(Pkg.dir("Stratimages")); Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'
+  - julia -e 'cd(Pkg.dir("StratiGraphics")); Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'
