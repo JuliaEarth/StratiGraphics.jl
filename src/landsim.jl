@@ -61,7 +61,7 @@ function landsim(training_images::Vector{BitMatrix};
     # time loop
     for event=1:nevents
       # sample training image at random
-      imgID = sample(1:length(training_images), weights(image_weights))
+      imgID = wsample(1:length(training_images), image_weights)
       training_image = training_images[imgID]
 
       # sample event duration

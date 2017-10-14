@@ -18,8 +18,7 @@ module StratiGraphics
 
 using Images: imfilter, Kernel
 using ImageQuilting
-using StatsBase: sample, weights
-using Distributions: Exponential, Uniform
+using Distributions: Exponential, Uniform, wsample
 using ProgressMeter: Progress, next!
 
 include("landsim.jl")
