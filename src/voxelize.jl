@@ -12,18 +12,6 @@
 ## ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ## OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-function landstack!(landscapes::Vector{<:Matrix})
-  # erode all landscapes backward in time
-  for t=length(landscapes):-1:2
-    Lt = landscapes[t]
-    Lp = landscapes[t-1]
-    erosion = Lp .> Lt
-    Lp[erosion] = Lt[erosion]
-  end
-
-  nothing
-end
-
-function voxelize(landscapes::Vector{<:Matrix}, vertres=100)
+function voxelize(landscapes::Vector{<:Matrix}, nz=100)
   # TODO
 end

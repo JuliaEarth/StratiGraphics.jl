@@ -12,22 +12,14 @@
 ## ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ## OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-# we cannot enable precompilation due to ImageQuilting.jl
-__precompile__(false)
+function landstack!(landscapes::Vector{<:Matrix})
+  # erode all landscapes backward in time
+  for t=length(landscapes):-1:2
+    Lt = landscapes[t]
+    Lp = landscapes[t-1]
+    erosion = Lp .> Lt
+    Lp[erosion] = Lt[erosion]
+  end
 
-module StratiGraphics
-
-using Images: imfilter, Kernel
-using ImageQuilting
-using Distributions: Exponential, Uniform, wsample
-using ProgressMeter: Progress, next!
-using JuMP, ECOS
-
-include("landsim.jl")
-include("landstack.jl")
-include("landmatch.jl")
-include("voxelize.jl")
-
-export landsim, landstack!, landmatch!, voxelize
-
+  nothing
 end
