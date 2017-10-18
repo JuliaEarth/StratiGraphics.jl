@@ -12,7 +12,7 @@
 ## ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ## OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-function landmatch!(landscapes::Vector{<:Matrix}, wells;
+function landmatch!(landscapes::Vector{<:Matrix}, wells::AbstractVector{Well};
                     tol=.1, showprogress=false)
   # retrieve dimensions
   nx, ny = size(landscapes[1])
@@ -51,6 +51,9 @@ function landmatch!(landscapes::Vector{<:Matrix}, wells;
     # update RHS of LP problem
     JuMP.setRHS.(upperbound,  E)
     JuMP.setRHS.(lowerbound, -E)
+
+    # update well constraints
+    # TODO
 
     # solve
     status = solve(m)

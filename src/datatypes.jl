@@ -12,31 +12,7 @@
 ## ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ## OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-# we cannot enable precompilation due to ImageQuilting.jl
-__precompile__(false)
-
-module StratiGraphics
-
-using Images: imfilter, Kernel
-using ImageQuilting
-using Distributions: Exponential, Uniform, wsample
-using ProgressMeter: Progress, next!
-using JuMP, ECOS
-
-include("datatypes.jl")
-include("landsim.jl")
-include("landstack.jl")
-include("landmatch.jl")
-include("voxelize.jl")
-
-export
-  # functions
-  landsim,
-  landstack!,
-  landmatch!,
-  voxelize,
-
-  # data types
-  Well
-
+struct Well
+  coords::Tuple{Int,Int}
+  values::Vector{<:Real}
 end
