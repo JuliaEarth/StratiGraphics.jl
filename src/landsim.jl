@@ -36,9 +36,9 @@ function landsim(training_images::Vector{BitMatrix};
   DEM == nothing && (DEM = zeros(Float64, nx, ny))
 
   # soft constraints
-  AUX1 = Float64[i/nx for i=1:nx, j=1:ny, k=1:1]
-  AUX2 = Float64[j/ny for i=1:nx, j=1:ny, k=1:1]
-  sdata = [SoftData(AUX1, _ -> AUX1), SoftData(AUX2, _ -> AUX2)]
+  AUX1 = [i/nx for i=1:nx, j=1:ny, k=1:1]
+  AUX2 = [j/ny for i=1:nx, j=1:ny, k=1:1]
+  sdata = [(AUX1, AUX1), (AUX2, AUX2)]
 
   # Bufe's experiment setup
   if bufesetup
