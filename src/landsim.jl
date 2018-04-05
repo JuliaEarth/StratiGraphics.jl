@@ -72,7 +72,7 @@ function landsim(training_images::Vector{BitMatrix};
 
       # generate flow pattern and sediment mask
       TI = reshape(training_image, size(training_image)..., 1)
-      reals = iqsim(TI, tplsizex, tplsizey, 1, size(TI)..., soft=sdata)
+      reals = iqsim(TI, tplsizex, tplsizey, 1, size(TI)..., soft=sdata, path=:random)
       flow_pattern = reals[1][:,:,1]
       sedmask = imfilter(flow_pattern, Kernel.gaussian(smoothwindow))
 
