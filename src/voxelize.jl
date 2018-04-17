@@ -26,15 +26,22 @@ function voxelize(stacked::Vector{<:Matrix}, nz=100)
   # estimate maximum z coordinate
   zmax = maximum(init + sum(thickness))
 
-  # build model layer by layer
+  # initialize model with base elevation
   model = fill(T(NaN), nx, ny, nz)
   elevation = floor.(Int, (init/zmax)*nz)
+  for j=1:ny, i=1:nx
+    for k=1:elevation[i,j]
+      model[i,j,k] = zero(T)
+    end
+  end
+
+  # create strata layer by layer
   for t=1:length(thickness)
     thick = thickness[t]
     sediments = floor.(Int, (thick/zmax)*nz)
     for j=1:ny, i=1:nx
       for k=1:sediments[i,j]
-        model[i,j,elevation[i,j]+k] = t
+        model[i,j,elevation[i,j]+k] = T(t)
       end
     end
     elevation += sediments
