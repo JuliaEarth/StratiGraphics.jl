@@ -3,7 +3,7 @@
 # Licensed under the ISC License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
-function voxelize(stacked::Vector{<:Matrix}, nz=100)
+function voxelize(stacked::Vector{<:Matrix}, nz=30)
   # initial landscape
   init  = copy(stacked[1])
   init -= minimum(init[.!isnan.(init)])
