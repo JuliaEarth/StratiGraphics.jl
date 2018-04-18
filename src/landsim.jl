@@ -3,10 +3,10 @@
 # Licensed under the ISC License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
-function landsim(training_images::Vector{BitMatrix};
+function landsim(training_images::Vector{<:Matrix};
                  image_weights=ones(length(training_images)),
-                 DEM=nothing, nevents=1, eventrate=1.,
-                 time2thick=1., smoothwindow=3, upliftrate=1.,
+                 DEM=nothing, nevents=5, eventrate=1.,
+                 time2thick=1., smoothwindow=3, upliftrate=eps(),
                  tplsizex=30, tplsizey=30,
                  bufesetup=false, brate=1., blocation=70, bwidth=8,
                  nreal=1, showprogress=false)
@@ -20,11 +20,21 @@ function landsim(training_images::Vector{BitMatrix};
   end
   @assert nevents ≥ 0 "number of events must be non-negative"
 
-  # grid size
-  nx, ny = size(training_images[1])
+  # training image shape
+  TI     = training_images[1]
+  NaNTI  = isnan.(TI)
+  nx, ny = size(TI)
 
   # initial landscape
   DEM == nothing && (DEM = zeros(Float64, nx, ny))
+  DEM[NaNTI] = NaN
+
+  # hard constraints
+  hdata = HardData()
+  for idx in find(NaNTI)
+    i, j = ind2sub((nx,ny), idx)
+    push!(hdata, (i,j,1)=>NaN)
+  end
 
   # soft constraints
   AUX1 = [i/nx for i=1:nx, j=1:ny, k=1:1]
@@ -63,9 +73,9 @@ function landsim(training_images::Vector{BitMatrix};
 
       # generate flow pattern and sediment mask
       TI = reshape(training_image, size(training_image)..., 1)
-      reals = iqsim(TI, tplsizex, tplsizey, 1, size(TI)..., soft=sdata, path=:random)
-      flow_pattern = reals[1][:,:,1]
-      sedmask = imfilter(flow_pattern, Kernel.gaussian(smoothwindow))
+      reals = iqsim(TI, tplsizex, tplsizey, 1, size(TI)...,
+                    hard=hdata, soft=sdata, path=:random)
+      sedmask = imfilter(reals[1][:,:,1], Kernel.gaussian(smoothwindow))
 
       # deposit sediments
       landscape += sedmask * time2thick * ΔT
