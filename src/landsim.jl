@@ -3,30 +3,27 @@
 # Licensed under the ISC License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
-function landsim(training_images::Vector{<:Matrix};
-                 image_weights=ones(length(training_images)),
-                 DEM=nothing, nevents=5, eventrate=1.,
+function landsim(images::Vector{<:Matrix};
+                 weights=ones(length(images)),
+                 DEM=zeros(size(images[1])), nevents=5, eventrate=1.,
                  time2thick=1., smoothwindow=3, upliftrate=eps(),
                  tplsizex=30, tplsizey=30,
-                 bufesetup=false, brate=1., blocation=70, bwidth=8,
+                 fold=false, foldrate=1., foldlocation=70, foldwidth=8,
                  nreal=1, showprogress=false)
   # sanity checks
-  @assert length(Set(size.(training_images))) == 1 "training images must have the same size"
-  @assert length(image_weights) == length(training_images) "number of weights must match number of images"
-  @assert all(image_weights .> 0) "image weights must be positive"
-  if DEM ≠ nothing
-    @assert DEM isa Matrix{Float64} "DEM must be a 2D array of Float64"
-    @assert size(DEM) == size(training_images[1]) "DEM must have the same size as training images"
-  end
+  @assert length(Set(size.(images))) == 1 "images must have the same size"
+  @assert length(weights) == length(images) "number of weights must match number of images"
+  @assert all(weights .> 0) "image weights must be positive"
+  @assert DEM isa Matrix{Float64} "DEM must be a 2D array of Float64"
+  @assert size(DEM) == size(images[1]) "DEM must have the same size as training images"
   @assert nevents ≥ 0 "number of events must be non-negative"
 
-  # training image shape
-  TI     = training_images[1]
+  # image shape
+  TI     = images[1]
   NaNTI  = isnan.(TI)
   nx, ny = size(TI)
 
-  # initial landscape
-  DEM == nothing && (DEM = zeros(Float64, nx, ny))
+  # handle NaN in initial landscape
   DEM[NaNTI] = NaN
 
   # hard constraints
@@ -41,11 +38,11 @@ function landsim(training_images::Vector{<:Matrix};
   AUX2 = [j/ny for i=1:nx, j=1:ny, k=1:1]
   sdata = [(AUX1, AUX1), (AUX2, AUX2)]
 
-  # Bufe's experiment setup
-  if bufesetup
-    bmask = zeros(DEM)
-    bmask[blocation,:] = 1
-    bmask = imfilter(bmask, Kernel.gaussian(bwidth))
+  # growing fold (Bufe's experiment setup)
+  if fold
+    foldmask = zeros(DEM)
+    foldmask[foldlocation,:] = 1.
+    foldmask = imfilter(foldmask, Kernel.gaussian(foldwidth))
   end
 
   # main output is a vector of 3D models
@@ -62,8 +59,8 @@ function landsim(training_images::Vector{<:Matrix};
     # time loop
     for event=1:nevents
       # sample training image at random
-      imgID = wsample(1:length(training_images), image_weights)
-      training_image = training_images[imgID]
+      imgID = wsample(1:length(images), weights)
+      image = images[imgID]
 
       # sample event duration
       ΔT = rand(Exponential(1/eventrate))
@@ -72,7 +69,7 @@ function landsim(training_images::Vector{<:Matrix};
       U = rand(Uniform(0,2*upliftrate))
 
       # generate flow pattern and sediment mask
-      TI = reshape(training_image, size(training_image)..., 1)
+      TI = reshape(image, size(image)..., 1)
       reals = iqsim(TI, tplsizex, tplsizey, 1, size(TI)...,
                     hard=hdata, soft=sdata, path=:random)
       sedmask = imfilter(reals[1][:,:,1], Kernel.gaussian(smoothwindow))
@@ -84,7 +81,7 @@ function landsim(training_images::Vector{<:Matrix};
       landscape -= U * ΔT
 
       # Bufe's experiment setup
-      bufesetup && (landscape += bmask * brate * ΔT)
+      fold && (landscape += foldmask * foldrate * ΔT)
 
       # save landscape and transition to a new flow pattern
       push!(landscapes, copy(landscape))
