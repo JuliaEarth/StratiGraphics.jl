@@ -20,7 +20,7 @@ Given a set of images representing flow:
 
 ![Flow Images](docs/flowimages.png)
 
-Perform image quilting to evolve a landscape:
+Repeatedly perform image quilting to evolve a landscape:
 
 ```julia
 reals = landsim(imgs, nreal=2)
