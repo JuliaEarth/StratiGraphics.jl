@@ -8,19 +8,24 @@ __precompile__(false)
 
 module StratiGraphics
 
-using Images: imfilter, Kernel
 using ImageQuilting
+using ImageFiltering: imfilter, Kernel
 using Distributions: Exponential, Uniform, wsample
 using ProgressMeter: Progress, next!
 using JuMP, ECOS
 
 include("datatypes.jl")
+include("flowprocs.jl")
 include("landsim.jl")
 include("landstack.jl")
 include("landmatch.jl")
 include("voxelize.jl")
 
 export
+  # flow processes
+  QuiltProcess,
+  evolve,
+
   # functions
   landsim,
   landstack!,
