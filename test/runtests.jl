@@ -1,5 +1,5 @@
 using StratiGraphics
-using Base.Test
+using Test
 
 @testset "StratiGraphics.jl" begin
   # TODO
