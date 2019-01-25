@@ -31,11 +31,14 @@ export
 
   # geological state
   State,
+  flow,
+  land,
 
   # geological record
   Record,
 
   # stratigraphy
-  Strata
+  Strata,
+  voxelize
 
 end
