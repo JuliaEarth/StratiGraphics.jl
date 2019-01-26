@@ -6,6 +6,7 @@ module StratiGraphics
 
 using GeoStatsBase
 using GeoStatsDevTools
+import GeoStatsBase: preprocess, solve_single
 
 using Distributions: Exponential, Uniform, wsample
 using RecipesBase
@@ -16,14 +17,12 @@ include("durations.jl")
 include("state.jl")
 include("record.jl")
 include("strata.jl")
+include("geostats.jl")
 
 export
   # geological environment
   Environment,
   simulate,
-
-  # geological processes
-  GeoStatsProcess,
 
   # duration processes
   ExponentialDuration,
@@ -39,6 +38,9 @@ export
 
   # stratigraphy
   Strata,
-  voxelize
+  voxelize,
+
+  # GeoStats.jl API
+  StratiSim
 
 end

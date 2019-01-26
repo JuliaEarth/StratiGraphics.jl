@@ -2,16 +2,7 @@
 # Licensed under the ISC License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
-"""
-    GeoStatsProcess(solver)
-
-A geostatistical process with given `solver`.
-"""
-struct GeoStatsProcess{S<:AbstractSimulationSolver} <: Process
-  solver::S
-end
-
-function evolve!(state, proc::GeoStatsProcess, Δt::Float64)
+function evolve!(state, proc::AbstractSimulationSolver, Δt::Float64)
   @assert Δt > 0 "invalid time period"
 
   # retrieve state info
@@ -25,7 +16,7 @@ function evolve!(state, proc::GeoStatsProcess, Δt::Float64)
   problem = SimulationProblem(domain, :flow => Float64, nreal)
 
   # generate realizations
-  solution = solve(problem, proc.solver)
+  solution = solve(problem, proc)
   reals    = digest(solution)
 
   Fs = reals[:flow]
