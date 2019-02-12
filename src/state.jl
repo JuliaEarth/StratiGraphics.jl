@@ -3,30 +3,24 @@
 # ------------------------------------------------------------------
 
 """
-    State(flow, land)
+    State
 
-A geological state consisting of `flow` and `land` maps.
+A geological state to be evolved by processes.
 """
-struct State
-  flow::Matrix{Float64}
+abstract type State end
+
+"""
+    LandState(land)
+
+A geological state consisting of a landscape map.
+"""
+struct LandState <: State
   land::Matrix{Float64}
 end
 
-# accessor functions
-flow(state::State) = state.flow
-land(state::State) = state.land
-
-@recipe function f(state::State, attr=:land)
+@recipe function f(state::LandState)
   aspect_ratio --> :equal
   colorbar --> :false
-  if attr == :land
-    seriestype --> :surface
-    state.land
-  elseif attr == :flow
-    seriestype --> :heatmap
-    seriescolor --> :kdc_r
-    state.flow
-  else
-    @error "invalid attribute"
-  end
+  seriestype --> :surface
+  state.land
 end

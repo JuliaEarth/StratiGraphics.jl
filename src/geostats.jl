@@ -11,6 +11,7 @@ Stratigraphy simulation with Markov-Poisson sampling.
 
 * `environment` - geological environment
 * `state`       - initial geological state
+* `stack`       - stacking scheme (:erosional or :depositional)
 * `nepochs`     - number of epochs (default to 10)
 
 ### References
@@ -21,6 +22,7 @@ synthesis of geormorphic data.*
 @simsolver StratiSim begin
   @param environment
   @param state = nothing
+  @param stack = :erosional
   @param nepochs = 10
 end
 
@@ -49,16 +51,19 @@ function preprocess(problem::SimulationProblem, solver::StratiSim)
       state = varparams.state
     else
       nx, ny, nz = size(pdomain)
-      flow = zeros(nx, ny)
       land = zeros(nx, ny)
-      state = State(flow, land)
+      state = LandState(land)
     end
+
+    # determine stacking scheme
+    stack = varparams.stack
 
     # determine number of epochs
     nepochs = varparams.nepochs
 
     # save preprocessed input
-    preproc[var] = (environment=environment, state=state, nepochs=nepochs)
+    preproc[var] = (environment=environment, state=state,
+                    stack=stack, nepochs=nepochs)
   end
 
   preproc
@@ -71,13 +76,13 @@ function solve_single(problem::SimulationProblem, var::Symbol,
   _, __, nz = size(pdomain)
 
   # get parameters for the variable
-  environment, state, nepochs = preproc[var]
+  environment, state, stack, nepochs = preproc[var]
 
   # simulate the environment
   record = simulate(environment, state, nepochs)
 
   # build stratigraphy
-  strata = Strata(record)
+  strata = Strata(record, stack)
 
   # return voxel model
   vec(voxelize(strata, nz))

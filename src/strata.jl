@@ -11,16 +11,28 @@ struct Strata
   horizons::Vector{<:Matrix}
 end
 
-function Strata(record::Record)
+function Strata(record::Record{LandState}, stack=:erosional)
   # land maps for all states in record
-  horizons = land.(record)
+  horizons = [state.land for state in record]
 
-  # erode land maps backward in time
-  for t=length(horizons):-1:2
-    Lt = horizons[t]
-    Lp = horizons[t-1]
-    erosion = Lp .> Lt
-    Lp[erosion] = Lt[erosion]
+  if stack == :erosional
+    # erode land maps backward in time
+    for t=length(horizons):-1:2
+      Lt = horizons[t]
+      Lp = horizons[t-1]
+      erosion = Lp .> Lt
+      Lp[erosion] = Lt[erosion]
+    end
+  end
+
+  if stack == :depositional
+    # deposit sediments forward in time
+    for t=1:length(horizons)-1
+      Lt = horizons[t]
+      Lf = horizons[t+1]
+      nodeposit = Lf .≤ Lt
+      Lf[nodeposit] = Lt[nodeposit]
+    end
   end
 
   Strata(horizons)
@@ -75,6 +87,7 @@ function voxelize(strata::Strata, nz=30)
 end
 
 @recipe function f(strata::Strata)
+  aspect_ratio --> :equal
   seriestype --> :surface
   colorbar --> :false
   for horizon in strata.horizons

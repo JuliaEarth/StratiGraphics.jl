@@ -11,10 +11,10 @@ import GeoStatsBase: preprocess, solve_single
 using Distributions: Exponential, Uniform, wsample
 using RecipesBase
 
-include("environment.jl")
+include("state.jl")
 include("processes.jl")
 include("durations.jl")
-include("state.jl")
+include("environment.jl")
 include("record.jl")
 include("strata.jl")
 include("geostats.jl")
@@ -29,9 +29,7 @@ export
   UniformDuration,
 
   # geological state
-  State,
-  flow,
-  land,
+  LandState,
 
   # geological record
   Record,

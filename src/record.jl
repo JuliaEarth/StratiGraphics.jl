@@ -7,8 +7,8 @@
 
 A geological record of geological `states`.
 """
-struct Record
-  states::Vector{State}
+struct Record{S<:State}
+  states::Vector{S}
 end
 
 Base.getindex(record::Record, ind) = getindex(record.states, ind)

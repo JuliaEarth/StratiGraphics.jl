@@ -2,29 +2,26 @@
 # Licensed under the ISC License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
-function evolve!(state, proc::AbstractSimulationSolver, Δt::Float64)
-  @assert Δt > 0 "invalid time period"
-
-  # retrieve state info
-  Fₒ, Lₒ = flow(state), land(state)
+function evolve!(state::LandState, proc::AbstractSimulationSolver, Δt::Float64)
+  # retrieve current landscape
+  Lₒ = state.land
 
   # fill time duration with realizations
   nreal = clamp(round(Int, Δt), 1, typemax(Int))
 
   # define 2D geostatistical problem
-  domain  = RegularGrid{Float64}(size(Fₒ))
-  problem = SimulationProblem(domain, :flow => Float64, nreal)
+  domain  = RegularGrid{Float64}(size(Lₒ))
+  problem = SimulationProblem(domain, :land => Float64, nreal)
 
   # generate realizations
   solution = solve(problem, proc)
   reals    = digest(solution)
 
-  Fs = reals[:flow]
-  F  = Fs[end]
-  L  = Lₒ + sum(Fs)
+  Ls = reals[:land]
+  L  = Lₒ + sum(Ls)
 
   # update the state
-  Fₒ .= F; Lₒ .= L
+  Lₒ .= L
 
   nothing
 end
