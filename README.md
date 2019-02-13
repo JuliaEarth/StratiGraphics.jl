@@ -7,8 +7,8 @@
 ![StratiGraphics Animation](docs/stratigraphics.gif)
 
 This package provides an implementation of Markov-Poisson sampling as described
-in [Hoffimann 2018](https://www.researchgate.net/publication/327426675_Morphodynamic_Analysis_and_Statistical_Synthesis_of_Geomorphic_Data).
-In this method, geostatistical algorithms from the [GeoStats.jl](https://github.com/juliohm/GeoStats.jl)
+in [Hoffimann 2018](https://searchworks.stanford.edu/view/12746435). In this method,
+geostatistical algorithms from the [GeoStats.jl](https://github.com/juliohm/GeoStats.jl)
 framework are used to quickly generate surfaces of a 3D stratigraphic model.
 
 ## Installation
@@ -85,6 +85,21 @@ For a reproducible example, please check [this notebook](docs/Usage.ipynb).
 ## Citation
 
 If you find StratiGraphics.jl useful in your work, please consider citing the thesis:
+
+```latex
+@PHDTHESIS{Hoffimann2018,
+  title={Morphodynamic Analysis and Statistical Synthesis of Geomorphic Data},
+  author={Hoffimann, J{\'u}lio},
+  school={Stanford University},
+  url={https://searchworks.stanford.edu/view/12746435},
+  year={2018},
+  month={September}
+}
+```
+
+## Asking for help
+
+If you have any questions, please [open an issue](https://github.com/juliohm/StratiGraphics.jl/issues).
 
 [travis-img]: https://travis-ci.org/juliohm/StratiGraphics.jl.svg?branch=master
 [travis-url]: https://travis-ci.org/juliohm/StratiGraphics.jl
