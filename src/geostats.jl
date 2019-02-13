@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------
 
 """
-    StratiSim(var₁=>param₁, var₂=>param₂, ...)
+    StratSim(var₁=>param₁, var₂=>param₂, ...)
 
 Stratigraphy simulation with Markov-Poisson sampling.
 
@@ -19,14 +19,14 @@ Stratigraphy simulation with Markov-Poisson sampling.
 Hoffimann 2018. *Morphodynamic analysis and statistical
 synthesis of geormorphic data.*
 """
-@simsolver StratiSim begin
+@simsolver StratSim begin
   @param environment
   @param state = nothing
   @param stack = :erosional
   @param nepochs = 10
 end
 
-function preprocess(problem::SimulationProblem, solver::StratiSim)
+function preprocess(problem::SimulationProblem, solver::StratSim)
   # retrieve problem info
   pdomain = domain(problem)
 
@@ -40,7 +40,7 @@ function preprocess(problem::SimulationProblem, solver::StratiSim)
     if var ∈ keys(solver.params)
       varparams = solver.params[var]
     else
-      varparams = StratiSimParam()
+      varparams = StratSimParam()
     end
 
     # determine environment
@@ -70,7 +70,7 @@ function preprocess(problem::SimulationProblem, solver::StratiSim)
 end
 
 function solve_single(problem::SimulationProblem, var::Symbol,
-                      solver::StratiSim, preproc)
+                      solver::StratSim, preproc)
   # retrieve problem info
   pdomain = domain(problem)
   _, __, nz = size(pdomain)

@@ -39,6 +39,6 @@ export
   voxelize,
 
   # GeoStats.jl API
-  StratiSim
+  StratSim
 
 end
