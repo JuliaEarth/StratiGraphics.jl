@@ -80,7 +80,7 @@ voxelize(strata, 50) # produce a 100x100x50 voxel model
 
 ![Voxelized Models](docs/voxelmodel.png)
 
-For a reproducible example, please check [this notebook](docs/Usage.ipynb).
+For a reproducible example, please check [this notebook](https://nbviewer.jupyter.org/github/juliohm/StratiGraphics.jl/blob/master/docs/Usage.ipynb).
 
 ## Citation
 
