@@ -32,9 +32,9 @@ such as [ImageQuilting.jl](https://github.com/juliohm/ImageQuilting.jl):
 ```julia
 using ImageQuilting
 
-proc1 = ImgQuilt(:land => (TI=TI1, template=(30,30,1)))
-proc2 = ImgQuilt(:land => (TI=TI2, template=(30,30,1)))
-proc3 = ImgQuilt(:land => (TI=TI3, template=(30,30,1)))
+proc1 = ImgQuilt(:land => (TI=TI1, tilesize=(30,30,1)))
+proc2 = ImgQuilt(:land => (TI=TI2, tilesize=(30,30,1)))
+proc3 = ImgQuilt(:land => (TI=TI3, tilesize=(30,30,1)))
 ```
 
 We define a geological environment as a set of geological processes, a set of transition
