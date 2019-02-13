@@ -1,17 +1,21 @@
 # StratiGraphics.jl
 
-*A tool for creating 3D stratigraphy from 2D flow images.*
+*A tool for creating 3D stratigraphy from 2D geostatistical processes.*
 
 [![][travis-img]][travis-url] [![][julia-pkg-img]][julia-pkg-url] [![][codecov-img]][codecov-url]
 
 ![StratiGraphics Animation](docs/stratigraphics.gif)
+
+This package provides an implementation of Markov-Poisson sampling as described
+in [Hoffimann 2018](https://www.researchgate.net/publication/327426675_Morphodynamic_Analysis_and_Statistical_Synthesis_of_Geomorphic_Data).
+In this method, geostatistical algorithms from the [GeoStats.jl](https://github.com/juliohm/GeoStats.jl) framework are used to quickly generate horizons of a 3D structural model.
 
 ## Installation
 
 Get the latest stable release with Julia's package manager:
 
 ```julia
-Pkg.add("StratiGraphics")
+] add StratiGraphics
 ```
 
 ## Usage
