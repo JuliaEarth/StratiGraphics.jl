@@ -9,7 +9,7 @@
 This package provides an implementation of Markov-Poisson sampling as described
 in [Hoffimann 2018](https://www.researchgate.net/publication/327426675_Morphodynamic_Analysis_and_Statistical_Synthesis_of_Geomorphic_Data).
 In this method, geostatistical algorithms from the [GeoStats.jl](https://github.com/juliohm/GeoStats.jl)
-framework are used to quickly generate horizons of a 3D structural model.
+framework are used to quickly generate surfaces of a 3D stratigraphic model.
 
 ## Installation
 
@@ -26,7 +26,7 @@ spatial patterns that we would like to reproduce in a 3D stratigraphic model:
 
 ![Flow Images](docs/flowimages.png)
 
-Each image can serve as a training image for a multiple-point geostatistical algorithm
+Each image can serve as a training image for a multiple-point geostatistical process
 such as [ImageQuilting.jl](https://github.com/juliohm/ImageQuilting.jl):
 
 ```julia
@@ -36,9 +36,55 @@ proc1 = ImgQuilt(:land => (TI=TI1, template=(30,30,1)))
 proc2 = ImgQuilt(:land => (TI=TI2, template=(30,30,1)))
 proc3 = ImgQuilt(:land => (TI=TI3, template=(30,30,1)))
 ```
-TODO
+
+We define a geological environment as a set of geological processes, a set of transition
+probabilities between the processes, and an event duration process:
+
+```julia
+using StratiGraphics
+
+# transition probabilities
+P = rand(3,3)
+P = P ./ sum(P, dims=2)
+
+env = Environment([proc1,proc2,proc3], P, ExponentialDuration(1.))
+```
+
+We can simulate the envinroment from an initial state (e.g. flat land) and for a number of
+epochs to produce a geological record:
+
+```julia
+nepochs = 10
+init = LandState(zeros(100,100))
+
+record = simulate(env, init, nepochs)
+```
+
+From the record, we can produce the strata in the form of surfaces:
+
+```julia
+strata = Strata(record)
+```
+
+We can choose between an `:erosional` (default) versus a `:depositional` stacking:
+
+```julia
+strata = Strata(record, :depositional)
+```
+
+We can then convert the surfaces into a 3D voxel model by specifying the vertical resolution:
+
+```julia
+voxelize(strata, 50) # produce a 100x100x50 voxel model
+```
 
 ![Voxelized Models](docs/voxelmodel.png)
+
+For a reproducible example, please check [this notebook](docs/Usage.ipynb).
+
+## Citation
+
+If you find StratiGraphics.jl useful in your work, please consider citing the thesis:
 
 [travis-img]: https://travis-ci.org/juliohm/StratiGraphics.jl.svg?branch=master
 [travis-url]: https://travis-ci.org/juliohm/StratiGraphics.jl
