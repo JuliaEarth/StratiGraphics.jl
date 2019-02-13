@@ -8,7 +8,8 @@
 
 This package provides an implementation of Markov-Poisson sampling as described
 in [Hoffimann 2018](https://www.researchgate.net/publication/327426675_Morphodynamic_Analysis_and_Statistical_Synthesis_of_Geomorphic_Data).
-In this method, geostatistical algorithms from the [GeoStats.jl](https://github.com/juliohm/GeoStats.jl) framework are used to quickly generate horizons of a 3D structural model.
+In this method, geostatistical algorithms from the [GeoStats.jl](https://github.com/juliohm/GeoStats.jl)
+framework are used to quickly generate horizons of a 3D structural model.
 
 ## Installation
 
@@ -20,24 +21,22 @@ Get the latest stable release with Julia's package manager:
 
 ## Usage
 
-Given a set of images representing flow:
+To illustrate the usage of the package, consider a set of satellite images containing
+spatial patterns that we would like to reproduce in a 3D stratigraphic model:
 
 ![Flow Images](docs/flowimages.png)
 
-Repeatedly perform image quilting to evolve a landscape:
+Each image can serve as a training image for a multiple-point geostatistical algorithm
+such as [ImageQuilting.jl](https://github.com/juliohm/ImageQuilting.jl):
 
 ```julia
-reals = landsim(imgs, nreal=2)
-```
+using ImageQuilting
 
-The obtained surfaces can then be stacked and voxelized to produce 3D stratigraphic models:
-
-```julia
-for real in reals
-  landstack!(real)
-  model = voxelize(real)
-end
+proc1 = ImgQuilt(:land => (TI=TI1, template=(30,30,1)))
+proc2 = ImgQuilt(:land => (TI=TI2, template=(30,30,1)))
+proc3 = ImgQuilt(:land => (TI=TI3, template=(30,30,1)))
 ```
+TODO
 
 ![Voxelized Models](docs/voxelmodel.png)
 
