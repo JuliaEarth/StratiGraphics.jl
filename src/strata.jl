@@ -67,7 +67,7 @@ function voxelize(strata::Strata, nz=30)
   model = fill(NaN, nx, ny, nz)
   for j=1:ny, i=1:nx
     for k=1:elevation[i,j]
-      model[i,j,k] = 1.0
+      model[i,j,k] = 0.0
     end
   end
 
@@ -77,7 +77,7 @@ function voxelize(strata::Strata, nz=30)
     sediments = floor.(Int, (thick/zmax)*nz)
     for j=1:ny, i=1:nx
       for k=1:sediments[i,j]
-        model[i,j,elevation[i,j]+k] = t + 1.0
+        model[i,j,elevation[i,j]+k] = t
       end
     end
     elevation .+= sediments
