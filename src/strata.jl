@@ -38,7 +38,7 @@ function Strata(record::Record{LandState}, stack=:erosional)
   Strata(horizons)
 end
 
-function voxelize(strata::Strata, nz=30)
+function voxelize(strata::Strata, nz::Int; fillbase=NaN, filltop=NaN)
   # retrieve horizons
   horizons = strata.horizons
 
@@ -63,11 +63,15 @@ function voxelize(strata::Strata, nz=30)
   # current elevation
   elevation = floor.(Int, (init/zmax)*nz)
 
-  # initialize model with current elevation
+  # voxel model
   model = fill(NaN, nx, ny, nz)
-  for j=1:ny, i=1:nx
-    for k=1:elevation[i,j]
-      model[i,j,k] = 0.0
+
+  # fill model base
+  if !isnan(fillbase)
+    for j=1:ny, i=1:nx
+      for k=1:elevation[i,j]
+        model[i,j,k] = fillbase
+      end
     end
   end
 
@@ -81,6 +85,15 @@ function voxelize(strata::Strata, nz=30)
       end
     end
     elevation .+= sediments
+  end
+
+  # fill model top
+  if !isnan(filltop)
+    for j=1:ny, i=1:nx
+      for k=elevation[i,j]+1:nz
+        model[i,j,k] = filltop
+      end
+    end
   end
 
   model

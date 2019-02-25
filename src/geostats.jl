@@ -13,6 +13,8 @@ Stratigraphy simulation with Markov-Poisson sampling.
 * `state`       - initial geological state
 * `stack`       - stacking scheme (:erosional or :depositional)
 * `nepochs`     - number of epochs (default to 10)
+* `fillbase`    - fill value for the bottom layer (default to `NaN`)
+* `filltop`     - fill value for the top layer (default to `NaN`)
 
 ### References
 
@@ -24,6 +26,8 @@ synthesis of geormorphic data.*
   @param state = nothing
   @param stack = :erosional
   @param nepochs = 10
+  @param fillbase = NaN
+  @param filltop = NaN
 end
 
 function preprocess(problem::SimulationProblem, solver::StratSim)
@@ -61,9 +65,14 @@ function preprocess(problem::SimulationProblem, solver::StratSim)
     # determine number of epochs
     nepochs = varparams.nepochs
 
+    # determine fill values
+    fillbase = varparams.fillbase
+    filltop = varparams.filltop
+
     # save preprocessed input
     preproc[var] = (environment=environment, state=state,
-                    stack=stack, nepochs=nepochs)
+                    stack=stack, nepochs=nepochs,
+                    fillbase=fillbase, filltop=filltop)
   end
 
   preproc
@@ -76,7 +85,7 @@ function solve_single(problem::SimulationProblem, var::Symbol,
   _, __, nz = size(pdomain)
 
   # get parameters for the variable
-  environment, state, stack, nepochs = preproc[var]
+  environment, state, stack, nepochs, fillbase, filltop = preproc[var]
 
   # simulate the environment
   record = simulate(environment, state, nepochs)
@@ -85,5 +94,8 @@ function solve_single(problem::SimulationProblem, var::Symbol,
   strata = Strata(record, stack)
 
   # return voxel model
-  vec(voxelize(strata, nz))
+  model = voxelize(strata, nz, fillbase=fillbase, filltop=filltop)
+
+  # flatten result
+  vec(model)
 end

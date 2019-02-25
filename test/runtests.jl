@@ -28,13 +28,20 @@ include("dummysolver.jl")
 
     Random.seed!(2019)
     problem = SimulationProblem(RegularGrid{Float64}(50,50,20), :strata => Float64, 3)
-    solver = StratSim(:strata => (environment=env,))
-    solution = solve(problem, solver)
-    reals = digest(solution)[:strata]
+    solver₁ = StratSim(:strata => (environment=env,))
+    solver₂ = StratSim(:strata => (environment=env,fillbase=0))
+    solver₃ = StratSim(:strata => (environment=env,fillbase=0,filltop=0))
+    solvers = [solver₁, solver₂, solver₃]
 
-    @plottest begin
-      plts = [heatmap(rotr90(real[1,:,:])) for real in reals]
-      plot(plts..., layout=(3,1))
-    end joinpath(datadir,"voxel.png") !istravis
+    solutions = [solve(problem, solver) for solver in solvers]
+    snames = ["voxel1","voxel2","voxel3"]
+
+    for (solution, sname) in zip(solutions, snames)
+      reals = digest(solution)[:strata]
+      @plottest begin
+        plts = [heatmap(rotr90(real[1,:,:])) for real in reals]
+        plot(plts..., layout=(3,1))
+      end joinpath(datadir,sname*".png") !istravis
+    end
   end
 end
