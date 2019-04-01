@@ -35,23 +35,18 @@ GeoStatsProcess(solver) = GeoStatsProcess(solver, SmoothingProcess())
 
 function evolve!(state::LandState, proc::GeoStatsProcess, Δt::Float64)
   # retrieve current landscape
-  Lₒ = state.land
-
-  # fill time duration with realizations
-  nreal = clamp(round(Int, Δt), 1, typemax(Int))
+  L = state.land
 
   # define 2D geostatistical problem
-  domain  = RegularGrid{Float64}(size(Lₒ))
-  problem = SimulationProblem(domain, :land => Float64, nreal)
+  domain  = RegularGrid{Float64}(size(L))
+  problem = SimulationProblem(domain, :land => Float64, 1)
 
-  # generate realizations
+  # generate realization
   solution = solve(problem, proc.solver)
+  Λ = solution[:land][1]
 
-  Ls = solution[:land]
-  L  = Lₒ + sum(Ls)
-
-  # update the state
-  Lₒ .= L
+  # evolve landscape
+  @. L = L + Δt * Λ
 
   nothing
 end
