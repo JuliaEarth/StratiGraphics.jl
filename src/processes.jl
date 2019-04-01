@@ -2,6 +2,11 @@
 # Licensed under the ISC License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
+"""
+    Process
+
+A geological process of evolution.
+"""
 abstract type Process end
 
 """

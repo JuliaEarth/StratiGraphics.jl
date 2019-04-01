@@ -24,6 +24,12 @@ export
   Environment,
   simulate,
 
+  # geostatistical process
+  GeoStatsProcess,
+
+  # post-processing
+  SmoothingProcess,
+
   # duration processes
   ExponentialDuration,
   UniformDuration,

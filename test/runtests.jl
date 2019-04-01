@@ -20,7 +20,8 @@ include("dummysolver.jl")
 @testset "StratiGraphics.jl" begin
   if visualtests
     Random.seed!(2019)
-    env = Environment([Dummy(),Dummy()], [0.5 0.5; 0.5 0.5], ExponentialDuration(1.0))
+    proc   = GeoStatsProcess(Dummy())
+    env    = Environment([proc, proc], [0.5 0.5; 0.5 0.5], ExponentialDuration(1.0))
     record = simulate(env, LandState(zeros(50,50)), 10)
     strata = Strata(record)
 
@@ -37,7 +38,7 @@ include("dummysolver.jl")
     snames = ["voxel1","voxel2","voxel3"]
 
     for (solution, sname) in zip(solutions, snames)
-      reals = digest(solution)[:strata]
+      reals = solution[:strata]
       @plottest begin
         plts = [heatmap(rotr90(real[1,:,:])) for real in reals]
         plot(plts..., layout=(3,1))
