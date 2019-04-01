@@ -67,7 +67,7 @@ function preprocess(problem::SimulationProblem, solver::StratSim)
 
     # determine fill values
     fillbase = varparams.fillbase
-    filltop = varparams.filltop
+    filltop  = varparams.filltop
 
     # save preprocessed input
     preproc[var] = (environment=environment, state=state,
