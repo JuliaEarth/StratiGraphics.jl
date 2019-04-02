@@ -8,6 +8,7 @@ using GeoStatsBase
 using GeoStatsDevTools
 import GeoStatsBase: preprocess, solve_single
 
+using ImageFiltering: Kernel, centered, imfilter!
 using Distributions: Exponential, Uniform, wsample
 using RecipesBase
 
