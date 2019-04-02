@@ -16,7 +16,42 @@ Evolve the `state` with process `proc` for a time period `Δt`.
 """
 evolve!(state, proc, Δt::Float64) = error("not implemented")
 
+"""
+    TimelessProcess
+
+A geological process implemented without the notion of time.
+"""
+abstract type TimelessProcess <: Process end
+
+"""
+    evolve!(land, proc)
+
+Evolve the `land` with timeless process `proc`.
+"""
+evolve!(land::Matrix, proc::TimelessProcess) = error("not implemented")
+
+"""
+    evolve!(land, proc, Δt)
+
+Evolve the `land` with timeless process `proc` for a time period `Δt`.
+"""
+function evolve!(land::Matrix, proc::TimelessProcess, Δt::Float64)
+  initial = copy(land)
+  evolve!(land, proc)
+  @. land = initial + Δt * land
+  nothing
+end
+
+"""
+    evolve!(state, proc, Δt)
+
+Evolve the landscape `state` with timeless process `proc` for a time period `Δt`.
+"""
+evolve!(state::LandState, proc::TimelessProcess, Δt::Float64) =
+  evolve!(state.land, proc, Δt)
+
 #------------------
 # IMPLEMENTATIONS
 #------------------
 include("processes/geostats.jl")
+include("processes/smoothing.jl")
