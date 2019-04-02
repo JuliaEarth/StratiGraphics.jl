@@ -25,11 +25,11 @@ export
   Environment,
   simulate,
 
-  # geostatistical process
+  # timeless processes
   GeoStatsProcess,
-
-  # post-processing
   SmoothingProcess,
+  SequentialTimelessProcess,
+  →,
 
   # duration processes
   ExponentialDuration,

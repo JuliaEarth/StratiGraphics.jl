@@ -55,3 +55,4 @@ evolve!(state::LandState, proc::TimelessProcess, Δt::Float64) =
 #------------------
 include("processes/geostats.jl")
 include("processes/smoothing.jl")
+include("processes/sequential.jl")
