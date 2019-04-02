@@ -11,4 +11,4 @@ struct UniformDuration
   a::Float64
   b::Float64
 end
-(p::UniformDuration)(t) = rand(Uniform(a,b))
+(p::UniformDuration)(t) = rand(Uniform(p.a,p.b))
