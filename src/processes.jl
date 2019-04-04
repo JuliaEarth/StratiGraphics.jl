@@ -36,9 +36,9 @@ evolve!(land::Matrix, proc::TimelessProcess) = error("not implemented")
 Evolve the `land` with timeless process `proc` for a time period `Δt`.
 """
 function evolve!(land::Matrix, proc::TimelessProcess, Δt::Float64)
-  initial = copy(land)
+  t = mean(land)
   evolve!(land, proc)
-  @. land = initial + Δt * land
+  @. land = t + Δt + land
   nothing
 end
 
