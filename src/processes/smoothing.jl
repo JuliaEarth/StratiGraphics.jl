@@ -14,4 +14,4 @@ end
 SmoothingProcess() = SmoothingProcess(3.0)
 
 evolve!(land::Matrix, proc::SmoothingProcess) =
-  imfilter!(land, land, centered(Kernel.gaussian(post.σ)), "replicate")
+  imfilter!(land, land, centered(Kernel.gaussian(proc.σ)), "replicate")
