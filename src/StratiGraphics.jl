@@ -28,6 +28,7 @@ export
   # timeless processes
   GeoStatsProcess,
   SmoothingProcess,
+  AnalyticalProcess,
   SequentialTimelessProcess,
   →,
 
