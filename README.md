@@ -32,9 +32,11 @@ such as [ImageQuilting.jl](https://github.com/juliohm/ImageQuilting.jl):
 ```julia
 using ImageQuilting
 
-proc1 = ImgQuilt(:land => (TI=TI1, tilesize=(30,30,1)))
-proc2 = ImgQuilt(:land => (TI=TI2, tilesize=(30,30,1)))
-proc3 = ImgQuilt(:land => (TI=TI3, tilesize=(30,30,1)))
+solver1 = ImgQuilt(:land => (TI=TI1, tilesize=(30,30,1)))
+solver2 = ImgQuilt(:land => (TI=TI2, tilesize=(30,30,1)))
+solver3 = ImgQuilt(:land => (TI=TI3, tilesize=(30,30,1)))
+
+procs = [GeoStatsProcess(solver) for solver in [solver1,solver2,solver3]]
 ```
 
 We define a geological environment as a set of geological processes, a set of transition
@@ -47,7 +49,10 @@ using StratiGraphics
 P = rand(3,3)
 P = P ./ sum(P, dims=2)
 
-env = Environment([proc1,proc2,proc3], P, ExponentialDuration(1.))
+# event duration process
+ΔT = ExponentialDuration(1.0)
+
+env = Environment(procs, P, ΔT)
 ```
 
 We can simulate the envinroment from an initial state (e.g. flat land) and for a number of
@@ -55,6 +60,7 @@ epochs to produce a geological record:
 
 ```julia
 nepochs = 10
+
 init = LandState(zeros(100,100))
 
 record = simulate(env, init, nepochs)
