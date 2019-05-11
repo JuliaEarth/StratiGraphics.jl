@@ -102,7 +102,7 @@ end
 @recipe function f(strata::Strata)
   aspect_ratio --> :equal
   seriestype --> :surface
-  colorbar --> :false
+  colorbar --> false
   for horizon in strata.horizons
     @series begin
       horizon
