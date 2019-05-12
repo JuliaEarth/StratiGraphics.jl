@@ -28,7 +28,7 @@ include("dummysolver.jl")
     record = simulate(env, LandState(zeros(50,50)), 10)
     strata = Strata(record)
 
-    @plottest plot(strata) joinpath(datadir,"strata.png") !istravis 0.5
+    @plottest plot(strata) joinpath(datadir,"strata.png") !istravis 0.1
 
     Random.seed!(2019)
     problem = SimulationProblem(RegularGrid{Float64}(50,50,20), :strata => Float64, 3)
