@@ -17,5 +17,5 @@ function evolve!(land::Matrix, proc::SequentialTimelessProcess)
   evolve!(land, proc.second)
 end
 
-→(first::TimelessProcess, second::TimelessProcess) =
+GeoStatsBase.:→(first::TimelessProcess, second::TimelessProcess) =
   SequentialTimelessProcess(first, second)

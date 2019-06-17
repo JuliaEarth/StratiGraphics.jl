@@ -5,12 +5,12 @@
 module StratiGraphics
 
 using GeoStatsBase
-using GeoStatsDevTools
-import GeoStatsBase: preprocess, solve_single
 
 using ImageFiltering: Kernel, centered, imfilter!
 using Distributions: Exponential, Uniform, wsample
 using RecipesBase
+
+import GeoStatsBase: preprocess, solve_single
 
 include("state.jl")
 include("processes.jl")
@@ -30,7 +30,6 @@ export
   SmoothingProcess,
   AnalyticalProcess,
   SequentialTimelessProcess,
-  →,
 
   # duration processes
   ExponentialDuration,

@@ -1,6 +1,5 @@
-using GeoStatsBase
-using GeoStatsDevTools
 using StratiGraphics
+using GeoStatsBase
 using Plots; gr()
 using VisualRegressionTests
 using Test, Pkg, Random
