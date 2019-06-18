@@ -23,5 +23,8 @@ VisualRegressionTests = "34922c18-7c2a-561c-bac1-01e79b2c4c92"
 test = ["Pkg", "VisualRegressionTests", "Test", "Plots", "ImageMagick", "QuartzImageIO", "Random"]
 
 [compat]
-GeoStatsBase = "≥ 0.5.0"
+Distributions = "^0.20"
+GeoStatsBase = "^0.5"
+ImageFiltering = "^0.6"
+RecipesBase = "^0.6"
 julia = "1"
