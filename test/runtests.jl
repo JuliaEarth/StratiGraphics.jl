@@ -4,6 +4,8 @@ using Plots; gr()
 using VisualRegressionTests
 using Test, Pkg, Random
 
+using ImageMagick
+
 # workaround for GR warnings
 ENV["GKSwstype"] = "100"
 
