@@ -24,7 +24,7 @@ test = ["Pkg", "VisualRegressionTests", "Test", "Plots", "ImageMagick", "QuartzI
 
 [compat]
 Distributions = "^0.21"
-GeoStatsBase = "^0.6"
+GeoStatsBase = "^0.7"
 ImageFiltering = "^0.6"
 RecipesBase = "^0.7"
 julia = "1"
