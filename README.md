@@ -8,7 +8,7 @@
 
 This package provides an implementation of Markov-Poisson sampling as described
 in [Hoffimann 2018](https://searchworks.stanford.edu/view/12746435). In this method,
-geostatistical algorithms from the [GeoStats.jl](https://github.com/juliohm/GeoStats.jl)
+geostatistical algorithms from the [GeoStats.jl](https://github.com/JuliaEarth/GeoStats.jl)
 framework are used to quickly generate surfaces of a 3D stratigraphic model.
 
 ## Installation
@@ -27,7 +27,7 @@ spatial patterns that we would like to reproduce in a 3D stratigraphic model:
 ![Flow Images](docs/flowimages.png)
 
 Each image can serve as a training image for a multiple-point geostatistical process
-such as [ImageQuilting.jl](https://github.com/juliohm/ImageQuilting.jl):
+such as [ImageQuilting.jl](https://github.com/JuliaEarth/ImageQuilting.jl):
 
 ```julia
 using ImageQuilting
@@ -86,7 +86,7 @@ voxelize(strata, 50) # produce a 100x100x50 voxel model
 
 ![Voxelized Models](docs/voxelmodel.png)
 
-For a reproducible example, please check [this notebook](https://nbviewer.jupyter.org/github/juliohm/StratiGraphics.jl/blob/master/docs/Usage.ipynb).
+For a reproducible example, please check [this notebook](https://nbviewer.jupyter.org/github/JuliaEarth/StratiGraphics.jl/blob/master/docs/Usage.ipynb).
 
 ## Citation
 
@@ -105,10 +105,10 @@ If you find StratiGraphics.jl useful in your work, please consider citing the th
 
 ## Asking for help
 
-If you have any questions, please [open an issue](https://github.com/juliohm/StratiGraphics.jl/issues).
+If you have any questions, please [open an issue](https://github.com/JuliaEarth/StratiGraphics.jl/issues).
 
-[travis-img]: https://travis-ci.org/juliohm/StratiGraphics.jl.svg?branch=master
-[travis-url]: https://travis-ci.org/juliohm/StratiGraphics.jl
+[travis-img]: https://travis-ci.org/JuliaEarth/StratiGraphics.jl.svg?branch=master
+[travis-url]: https://travis-ci.org/JuliaEarth/StratiGraphics.jl
 
-[codecov-img]: https://codecov.io/gh/juliohm/StratiGraphics.jl/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/juliohm/StratiGraphics.jl
+[codecov-img]: https://codecov.io/gh/JuliaEarth/StratiGraphics.jl/branch/master/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/JuliaEarth/StratiGraphics.jl
