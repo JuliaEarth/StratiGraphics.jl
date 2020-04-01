@@ -10,7 +10,7 @@ using ImageFiltering: Kernel, centered, imfilter!
 using Distributions: Exponential, Uniform, wsample
 using RecipesBase
 
-import GeoStatsBase: preprocess, solve_single
+import GeoStatsBase: preprocess, solvesingle
 
 include("state.jl")
 include("processes.jl")

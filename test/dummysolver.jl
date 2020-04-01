@@ -1,11 +1,14 @@
-import GeoStatsBase: solve_single
+import GeoStatsBase: solvesingle
 
 # define a dummy solver for testing
 @simsolver Dummy begin end
-function solve_single(problem::SimulationProblem, var::Symbol,
+function solvesingle(problem::SimulationProblem, covars::NamedTuple,
                       solver::Dummy, preproc)
-  pdomain = domain(problem)
-  npts = npoints(pdomain)
-  V = variables(problem)[var]
-  fill(one(V), npts)
+  reals = map(covars.names) do var
+    pdomain = domain(problem)
+    npts = npoints(pdomain)
+    V = variables(problem)[var]
+    var => fill(one(V), npts)
+  end
+  Dict(reals)
 end
