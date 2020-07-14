@@ -12,9 +12,9 @@ struct GeoStatsProcess{S} <: TimelessProcess
 end
 
 function evolve!(land::Matrix, proc::GeoStatsProcess)
-  domain   = RegularGrid{Float64}(size(land))
-  problem  = SimulationProblem(domain, :land  => Float64, 1)
+  domain   = RegularGrid(size(land))
+  problem  = SimulationProblem(domain, :land => Float64, 1)
   solution = solve(problem, proc.solver)
-  land    .= solution[:land][1]
+  land[:] .= solution[:land][1]
   nothing
 end

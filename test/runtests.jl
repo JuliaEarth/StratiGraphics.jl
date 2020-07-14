@@ -1,7 +1,6 @@
 using StratiGraphics
 using GeoStatsBase
-using Plots; gr()
-using VisualRegressionTests
+using Plots, VisualRegressionTests
 using Test, Pkg, Random
 
 using ImageMagick
@@ -32,7 +31,7 @@ include("dummysolver.jl")
     @plottest plot(strata) joinpath(datadir,"strata.png") !istravis 0.1
 
     Random.seed!(2019)
-    problem = SimulationProblem(RegularGrid{Float64}(50,50,20), :strata => Float64, 3)
+    problem = SimulationProblem(RegularGrid(50,50,20), :strata => Float64, 3)
     solver₁ = StratSim(:strata => (environment=env,))
     solver₂ = StratSim(:strata => (environment=env,fillbase=0))
     solver₃ = StratSim(:strata => (environment=env,fillbase=0,filltop=0))
@@ -44,7 +43,10 @@ include("dummysolver.jl")
     for (solution, sname) in zip(solutions, snames)
       reals = solution[:strata]
       @plottest begin
-        plts = [heatmap(rotr90(real[1,:,:])) for real in reals]
+        plts = map(reals) do real
+          R = reshape(real, 50, 50, 20)
+          heatmap(rotr90(R[1,:,:]))
+        end
         plot(plts..., layout=(3,1))
       end joinpath(datadir,sname*".png") !istravis
     end
