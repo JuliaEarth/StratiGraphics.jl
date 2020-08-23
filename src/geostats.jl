@@ -34,7 +34,7 @@ function preprocess(problem::SimulationProblem, solver::StratSim)
   # retrieve problem info
   pdomain = domain(problem)
 
-  @assert ndims(pdomain) == 3 "solver implemented for 3D domain only"
+  @assert ncoords(pdomain) == 3 "solver implemented for 3D domain only"
 
   # result of preprocessing
   preproc = Dict()
