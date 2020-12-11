@@ -2,7 +2,7 @@
 
 *A tool for creating 3D stratigraphy from 2D geostatistical processes.*
 
-[![][travis-img]][travis-url] [![][codecov-img]][codecov-url]
+[![][build-img]][build-url] [![][codecov-img]][codecov-url]
 
 ![StratiGraphics Animation](docs/stratigraphics.gif)
 
