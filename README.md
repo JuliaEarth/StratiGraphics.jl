@@ -107,8 +107,8 @@ If you find StratiGraphics.jl useful in your work, please consider citing the th
 
 If you have any questions, please [open an issue](https://github.com/JuliaEarth/StratiGraphics.jl/issues).
 
-[travis-img]: https://travis-ci.org/JuliaEarth/StratiGraphics.jl.svg?branch=master
-[travis-url]: https://travis-ci.org/JuliaEarth/StratiGraphics.jl
+[build-img]: https://img.shields.io/github/workflow/status/JuliaEarth/StratiGraphics.jl/CI?style=flat-square
+[build-url]: https://github.com/JuliaEarth/StratiGraphics.jl/actions
 
 [codecov-img]: https://codecov.io/gh/JuliaEarth/StratiGraphics.jl/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/JuliaEarth/StratiGraphics.jl
