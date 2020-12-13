@@ -28,7 +28,7 @@ include("dummysolver.jl")
     record = simulate(env, LandState(zeros(50,50)), 10)
     strata = Strata(record)
 
-    @plottest plot(strata) joinpath(datadir,"strata.png") !istravis 0.1
+    @plottest plot(strata) joinpath(datadir,"strata.png") !isCI 0.1
 
     Random.seed!(2019)
     problem = SimulationProblem(RegularGrid(50,50,20), :strata => Float64, 3)
@@ -48,7 +48,7 @@ include("dummysolver.jl")
           heatmap(rotr90(R[1,:,:]))
         end
         plot(plts..., layout=(3,1))
-      end joinpath(datadir,sname*".png") !istravis
+      end joinpath(datadir,sname*".png") !isCI
     end
   end
 end

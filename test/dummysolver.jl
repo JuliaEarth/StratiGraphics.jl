@@ -2,13 +2,11 @@ import GeoStatsBase: solvesingle
 
 # define a dummy solver for testing
 @simsolver Dummy begin end
-function solvesingle(problem::SimulationProblem, covars::NamedTuple,
-                      solver::Dummy, preproc)
+function solvesingle(problem::SimulationProblem, covars::NamedTuple, ::Dummy, preproc)
+  mactypeof = Dict(name(v) => mactype(v) for v in variables(problem))
   reals = map(covars.names) do var
-    pdomain = domain(problem)
-    n = nelms(pdomain)
-    V = variables(problem)[var]
-    var => fill(one(V), n)
+    V = mactypeof[var]
+    var => fill(one(V), nelms(domain(problem)))
   end
   Dict(reals)
 end
