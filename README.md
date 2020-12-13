@@ -110,5 +110,5 @@ If you have any questions, please [open an issue](https://github.com/JuliaEarth/
 [build-img]: https://img.shields.io/github/workflow/status/JuliaEarth/StratiGraphics.jl/CI?style=flat-square
 [build-url]: https://github.com/JuliaEarth/StratiGraphics.jl/actions
 
-[codecov-img]: https://codecov.io/gh/JuliaEarth/StratiGraphics.jl/branch/master/graph/badge.svg
+[codecov-img]: https://img.shields.io/codecov/c/github/JuliaEarth/StratiGraphics.jl?style=flat-square
 [codecov-url]: https://codecov.io/gh/JuliaEarth/StratiGraphics.jl
