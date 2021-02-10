@@ -1,6 +1,7 @@
 using StratiGraphics
 using GeoStatsBase
-using Plots, VisualRegressionTests
+using Plots; gr(size=(600,400))
+using ReferenceTests, ImageIO
 using Test, Random
 
 # workaround for GR warnings
@@ -12,6 +13,19 @@ islinux = Sys.islinux()
 visualtests = !isCI || (isCI && islinux)
 datadir = joinpath(@__DIR__,"data")
 
+# helper functions for visual regression tests
+function asimage(plt)
+  io = IOBuffer()
+  show(io, "image/png", plt)
+  seekstart(io)
+  ImageIO.load(io)
+end
+macro test_ref_plot(fname, plt)
+  esc(quote
+    @test_reference $fname asimage($plt)
+  end)
+end
+
 include("dummysolver.jl")
 
 @testset "StratiGraphics.jl" begin
@@ -22,7 +36,7 @@ include("dummysolver.jl")
     record = simulate(env, LandState(zeros(50,50)), 10)
     strata = Strata(record)
 
-    @plottest plot(strata) joinpath(datadir,"strata.png") !isCI 0.1
+    @test_ref_plot "data/strata.png" plot(strata)
 
     Random.seed!(2019)
     problem = SimulationProblem(RegularGrid(50,50,20), :strata => Float64, 3)
@@ -36,13 +50,12 @@ include("dummysolver.jl")
 
     for (solution, sname) in zip(solutions, snames)
       reals = solution[:strata]
-      @plottest begin
-        plts = map(reals) do real
-          R = reshape(real, 50, 50, 20)
-          heatmap(rotr90(R[1,:,:]))
-        end
-        plot(plts..., layout=(3,1))
-      end joinpath(datadir,sname*".png") !isCI
+      plts = map(reals) do real
+        R = reshape(real, 50, 50, 20)
+        heatmap(rotr90(R[1,:,:]))
+      end
+      plt = plot(plts...,layout=(3,1))
+      @test_ref_plot "data/$(sname).png" plt
     end
   end
 end
