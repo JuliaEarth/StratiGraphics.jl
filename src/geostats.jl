@@ -34,7 +34,7 @@ function preprocess(problem::SimulationProblem, solver::StratSim)
   # retrieve problem info
   pdomain = domain(problem)
 
-  @assert ncoords(pdomain) == 3 "solver implemented for 3D domain only"
+  @assert embeddim(pdomain) == 3 "solver implemented for 3D domain only"
 
   # result of preprocessing
   preproc = Dict()
@@ -76,8 +76,7 @@ function preprocess(problem::SimulationProblem, solver::StratSim)
   preproc
 end
 
-function solvesingle(problem::SimulationProblem, covars::NamedTuple,
-                     solver::StratSim, preproc)
+function solvesingle(problem::SimulationProblem, covars::NamedTuple, ::StratSim, preproc)
   # retrieve problem info
   pdomain = domain(problem)
   _, __, nz = size(pdomain)

@@ -4,6 +4,7 @@
 
 module StratiGraphics
 
+using Meshes
 using GeoStatsBase
 
 using ImageFiltering: Kernel, centered, imfilter!

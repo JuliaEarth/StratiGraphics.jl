@@ -1,4 +1,5 @@
 using StratiGraphics
+using Meshes
 using GeoStatsBase
 using Plots; gr(size=(600,400))
 using ReferenceTests, ImageIO
@@ -13,19 +14,6 @@ islinux = Sys.islinux()
 visualtests = !isCI || (isCI && islinux)
 datadir = joinpath(@__DIR__,"data")
 
-# helper functions for visual regression tests
-function asimage(plt)
-  io = IOBuffer()
-  show(io, "image/png", plt)
-  seekstart(io)
-  ImageIO.load(io)
-end
-macro test_ref_plot(fname, plt)
-  esc(quote
-    @test_reference $fname asimage($plt)
-  end)
-end
-
 include("dummysolver.jl")
 
 @testset "StratiGraphics.jl" begin
@@ -36,10 +24,10 @@ include("dummysolver.jl")
     record = simulate(env, LandState(zeros(50,50)), 10)
     strata = Strata(record)
 
-    @test_ref_plot "data/strata.png" plot(strata)
+    @test_reference "data/strata.png" plot(strata)
 
     Random.seed!(2019)
-    problem = SimulationProblem(RegularGrid(50,50,20), :strata => Float64, 3)
+    problem = SimulationProblem(CartesianGrid(50,50,20), :strata => Float64, 3)
     solver₁ = StratSim(:strata => (environment=env,))
     solver₂ = StratSim(:strata => (environment=env,fillbase=0))
     solver₃ = StratSim(:strata => (environment=env,fillbase=0,filltop=0))
@@ -55,7 +43,7 @@ include("dummysolver.jl")
         heatmap(rotr90(R[1,:,:]))
       end
       plt = plot(plts...,layout=(3,1))
-      @test_ref_plot "data/$(sname).png" plt
+      @test_reference "data/$(sname).png" plt
     end
   end
 end

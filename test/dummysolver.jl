@@ -6,7 +6,7 @@ function solvesingle(problem::SimulationProblem, covars::NamedTuple, ::Dummy, pr
   mactypeof = Dict(name(v) => mactype(v) for v in variables(problem))
   reals = map(covars.names) do var
     V = mactypeof[var]
-    var => fill(one(V), nelms(domain(problem)))
+    var => fill(one(V), nelements(domain(problem)))
   end
   Dict(reals)
 end
