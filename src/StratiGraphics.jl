@@ -7,8 +7,9 @@ module StratiGraphics
 using Meshes
 using GeoStatsBase
 
-using ImageFiltering: Kernel, centered, imfilter!
-using Distributions: Exponential, Uniform, wsample
+using ImageFiltering
+using Distributions
+using Random
 using RecipesBase
 
 import GeoStatsBase: preprocess, solvesingle

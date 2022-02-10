@@ -1,7 +1,7 @@
 name = "StratiGraphics"
 uuid = "135379e1-83be-5ae7-9e8e-29dade3dc6c7"
 author = "Júlio Hoffimann <julio.hoffimann@gmail.com>"
-version = "0.4.11"
+version = "0.5.0"
 
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
@@ -14,7 +14,7 @@ RecipesBase = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
 [compat]
 Distributions = "0.21, 0.22, 0.23, 0.24, 0.25"
 GeoStatsBase = "0.21, 0.22, 0.23, 0.24"
-ImageFiltering = "0.6"
-Meshes = "0.16, 0.17, 0.18, 0.19"
+ImageFiltering = "0.6, 0.7"
+Meshes = "0.16, 0.17, 0.18, 0.19, 0.20"
 RecipesBase = "1.0"
-julia = "1.5"
+julia = "1.6"

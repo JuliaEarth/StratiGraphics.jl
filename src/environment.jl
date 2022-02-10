@@ -3,15 +3,19 @@
 # ------------------------------------------------------------------
 
 """
-    Environment(processes, transitions, durations)
+    Environment([rng,] processes, transitions, durations)
 
 Geological environment with `processes`, `transitions` and `durations`.
 """
-struct Environment
+struct Environment{RNG}
+  rng::RNG
   processes::Vector
   transitions::Matrix{Float64}
   durations
 end
+
+Environment(processes, transitions, durations) =
+  Environment(Random.GLOBAL_RNG, processes, transitions, durations)
 
 """
     iterate(env, state=nothing)
@@ -26,8 +30,8 @@ function Base.iterate(env::Environment, state=nothing)
   n  = length(ps)
 
   # current state and time
-  if state == nothing
-    s, t = rand(1:n), 0
+  if state === nothing
+    s, t = rand(env.rng, 1:n), 0
   else
     s, t = state
   end
@@ -37,7 +41,7 @@ function Base.iterate(env::Environment, state=nothing)
   Δt   = Δ(t)
 
   # transition to a new state
-  ss = wsample(1:n, view(P,s,:))
+  ss = wsample(env.rng, 1:n, view(P,s,:))
   tt = t + 1
 
   (proc, Δt), (ss, tt)
