@@ -32,9 +32,9 @@ such as [ImageQuilting.jl](https://github.com/JuliaEarth/ImageQuilting.jl):
 ```julia
 using ImageQuilting
 
-solver1 = ImgQuilt(:land => (TI=TI1, tilesize=(30,30,1)))
-solver2 = ImgQuilt(:land => (TI=TI2, tilesize=(30,30,1)))
-solver3 = ImgQuilt(:land => (TI=TI3, tilesize=(30,30,1)))
+solver1 = ImgQuilt(:land => (TI=TI1, tilesize=(30,30)))
+solver2 = ImgQuilt(:land => (TI=TI2, tilesize=(30,30)))
+solver3 = ImgQuilt(:land => (TI=TI3, tilesize=(30,30)))
 
 procs = [GeoStatsProcess(solver) for solver in [solver1,solver2,solver3]]
 ```
@@ -86,7 +86,7 @@ voxelize(strata, 50) # produce a 100x100x50 voxel model
 
 ![Voxelized Models](docs/voxelmodel.png)
 
-For a reproducible example, please check [this notebook](https://nbviewer.jupyter.org/github/JuliaEarth/StratiGraphics.jl/blob/master/docs/Usage.ipynb).
+For a reproducible example, please check the [GeoStatsTutorials](https://github.com/JuliaEarth/GeoStatsTutorials).
 
 ## Citation
 
