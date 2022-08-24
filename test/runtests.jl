@@ -1,9 +1,10 @@
 using StratiGraphics
 using Meshes
 using GeoStatsBase
+using Plots; gr(size=(600,400))
+using MeshPlots # TODO: replace by MeshViz
 using ReferenceTests, ImageIO
-using Test, Plots, Random
-gr(size=(600,400))
+using Test, Random
 
 # workaround for GR warnings
 ENV["GKSwstype"] = "100"
