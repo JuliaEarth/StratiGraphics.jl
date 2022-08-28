@@ -2,7 +2,7 @@ using StratiGraphics
 using Meshes
 using GeoStatsBase
 using Plots; gr(size=(600,400))
-using MeshPlots # TODO: replace by MeshViz
+using GeoStatsPlots # TODO: replace by GeoStatsViz
 using ReferenceTests, ImageIO
 using Test, Random
 
@@ -15,7 +15,7 @@ islinux = Sys.islinux()
 visualtests = !isCI || (isCI && islinux)
 datadir = joinpath(@__DIR__,"data")
 
-include("dummysolver.jl")
+include("dummy.jl")
 
 @testset "StratiGraphics.jl" begin
   if visualtests
