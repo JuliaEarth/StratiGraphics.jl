@@ -32,9 +32,9 @@ such as [ImageQuilting.jl](https://github.com/JuliaEarth/ImageQuilting.jl):
 ```julia
 using ImageQuilting
 
-solver1 = ImgQuilt(:land => (TI=TI1, tilesize=(30,30)))
-solver2 = ImgQuilt(:land => (TI=TI2, tilesize=(30,30)))
-solver3 = ImgQuilt(:land => (TI=TI3, tilesize=(30,30)))
+solver1 = IQ(:land => (TI=TI1, tilesize=(30,30)))
+solver2 = IQ(:land => (TI=TI2, tilesize=(30,30)))
+solver3 = IQ(:land => (TI=TI3, tilesize=(30,30)))
 
 procs = [GeoStatsProcess(solver) for solver in [solver1,solver2,solver3]]
 ```
@@ -107,7 +107,7 @@ If you find StratiGraphics.jl useful in your work, please consider citing the th
 
 If you have any questions, please [open an issue](https://github.com/JuliaEarth/StratiGraphics.jl/issues).
 
-[build-img]: https://img.shields.io/github/workflow/status/JuliaEarth/StratiGraphics.jl/CI?style=flat-square
+[build-img]: https://img.shields.io/github/actions/workflow/status/JuliaEarth/StratiGraphics.jl/CI.yml?branch=master&style=flat-square
 [build-url]: https://github.com/JuliaEarth/StratiGraphics.jl/actions
 
 [codecov-img]: https://img.shields.io/codecov/c/github/JuliaEarth/StratiGraphics.jl?style=flat-square
