@@ -47,8 +47,7 @@ end
 
 Evolve the landscape `state` with timeless process `proc` for a time period `Δt`.
 """
-evolve!(state::LandState, proc::TimelessProcess, Δt::Float64) =
-  evolve!(state.land, proc, Δt)
+evolve!(state::LandState, proc::TimelessProcess, Δt::Float64) = evolve!(state.land, proc, Δt)
 
 #------------------
 # IMPLEMENTATIONS
