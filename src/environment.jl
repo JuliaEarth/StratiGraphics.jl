@@ -11,11 +11,10 @@ struct Environment{RNG}
   rng::RNG
   processes::Vector
   transitions::Matrix{Float64}
-  durations
+  durations::Any
 end
 
-Environment(processes, transitions, durations) =
-  Environment(Random.GLOBAL_RNG, processes, transitions, durations)
+Environment(processes, transitions, durations) = Environment(Random.GLOBAL_RNG, processes, transitions, durations)
 
 """
     iterate(env, state=nothing)
@@ -25,9 +24,9 @@ Iterate the environment `env` producing processes and durations.
 function Base.iterate(env::Environment, state=nothing)
   # environment settings
   ps = env.processes
-  P  = env.transitions
-  Δ  = env.durations
-  n  = length(ps)
+  P = env.transitions
+  Δ = env.durations
+  n = length(ps)
 
   # current state and time
   if state === nothing
@@ -38,10 +37,10 @@ function Base.iterate(env::Environment, state=nothing)
 
   # process and duration
   proc = ps[s]
-  Δt   = Δ(t)
+  Δt = Δ(t)
 
   # transition to a new state
-  ss = wsample(env.rng, 1:n, view(P,s,:))
+  ss = wsample(env.rng, 1:n, view(P, s, :))
   tt = t + 1
 
   (proc, Δt), (ss, tt)

@@ -9,7 +9,7 @@ end
 
 ExponentialDuration(λ) = ExponentialDuration(Random.GLOBAL_RNG, λ)
 
-(p::ExponentialDuration)(t) = rand(p.rng, Exponential(1/p.λ))
+(p::ExponentialDuration)(t) = rand(p.rng, Exponential(1 / p.λ))
 
 struct UniformDuration{RNG}
   rng::RNG
@@ -19,4 +19,4 @@ end
 
 UniformDuration(a, b) = UniformDuration(Random.GLOBAL_RNG, a, b)
 
-(p::UniformDuration)(t) = rand(p.rng, Uniform(p.a,p.b))
+(p::UniformDuration)(t) = rand(p.rng, Uniform(p.a, p.b))
