@@ -42,7 +42,7 @@ function preprocess(problem::SimulationProblem, solver::StratSim)
   for covars in covariables(problem, solver)
     for var in covars.names
       # get user parameters
-      varparams = covars.params[(var,)]
+      varparams = covars.params[Set([var])]
 
       # determine environment
       environment = varparams.environment
@@ -80,7 +80,7 @@ function solvesingle(problem::SimulationProblem, covars::NamedTuple, ::StratSim,
   pdomain = domain(problem)
   _, __, nz = size(pdomain)
 
-  varreal = map(covars.names) do var
+  varreal = map(collect(covars.names)) do var
     # get parameters for the variable
     environment, state, stack, nepochs, fillbase, filltop = preproc[var]
 

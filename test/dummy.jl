@@ -3,9 +3,8 @@ import GeoStatsBase: solvesingle
 # define a dummy solver for testing
 @simsolver Dummy begin end
 function solvesingle(problem::SimulationProblem, covars::NamedTuple, ::Dummy, preproc)
-  mactypeof = Dict(name(v) => mactype(v) for v in variables(problem))
-  reals = map(covars.names) do var
-    V = mactypeof[var]
+  reals = map(collect(covars.names)) do var
+    V = variables(problem)[var]
     var => fill(one(V), nelements(domain(problem)))
   end
   Dict(reals)
