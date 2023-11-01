@@ -17,10 +17,3 @@ A geological state consisting of a landscape map.
 struct LandState <: State
   land::Matrix{Float64}
 end
-
-@recipe function f(state::LandState)
-  aspect_ratio --> :equal
-  colorbar --> :false
-  seriestype --> :surface
-  state.land
-end

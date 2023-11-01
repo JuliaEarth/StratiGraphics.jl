@@ -4,15 +4,9 @@
 
 module StratiGraphics
 
-using Meshes
-using GeoStatsBase
-
 using ImageFiltering
 using Distributions
 using Random
-using RecipesBase
-
-import GeoStatsBase: preprocess, solvesingle
 
 include("state.jl")
 include("processes.jl")
@@ -20,7 +14,6 @@ include("durations.jl")
 include("environment.jl")
 include("record.jl")
 include("strata.jl")
-include("geostats.jl")
 
 export
   # geological environment
@@ -28,7 +21,6 @@ export
   simulate,
 
   # timeless processes
-  GeoStatsProcess,
   SmoothingProcess,
   AnalyticalProcess,
   SequentialTimelessProcess,
@@ -45,9 +37,6 @@ export
 
   # stratigraphy
   Strata,
-  voxelize,
-
-  # GeoStats.jl API
-  StratSim
+  voxelize
 
 end

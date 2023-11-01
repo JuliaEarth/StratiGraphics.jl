@@ -98,14 +98,3 @@ function voxelize(strata::Strata, nz::Int; fillbase=NaN, filltop=NaN)
 
   model
 end
-
-@recipe function f(strata::Strata)
-  aspect_ratio --> :equal
-  seriestype --> :surface
-  colorbar --> false
-  for horizon in strata.horizons
-    @series begin
-      horizon
-    end
-  end
-end
