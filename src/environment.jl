@@ -14,7 +14,7 @@ struct Environment{RNG}
   durations::Any
 end
 
-Environment(processes, transitions, durations) = Environment(Random.GLOBAL_RNG, processes, transitions, durations)
+Environment(processes, transitions, durations) = Environment(Random.default_rng(), processes, transitions, durations)
 
 """
     iterate(env, state=nothing)

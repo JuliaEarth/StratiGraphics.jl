@@ -7,7 +7,7 @@ struct ExponentialDuration{RNG}
   λ::Float64
 end
 
-ExponentialDuration(λ) = ExponentialDuration(Random.GLOBAL_RNG, λ)
+ExponentialDuration(λ) = ExponentialDuration(Random.default_rng(), λ)
 
 (p::ExponentialDuration)(t) = rand(p.rng, Exponential(1 / p.λ))
 
@@ -17,6 +17,6 @@ struct UniformDuration{RNG}
   b::Float64
 end
 
-UniformDuration(a, b) = UniformDuration(Random.GLOBAL_RNG, a, b)
+UniformDuration(a, b) = UniformDuration(Random.default_rng(), a, b)
 
 (p::UniformDuration)(t) = rand(p.rng, Uniform(p.a, p.b))
