@@ -55,7 +55,7 @@ P = P ./ sum(P, dims=2)
 env = Environment(procs, P, ΔT)
 ```
 
-We can simulate the envinroment from an initial state (e.g. flat land) and for a number of
+We can simulate the environment from an initial state (e.g. flat land) and for a number of
 epochs to produce a geological record:
 
 ```julia
